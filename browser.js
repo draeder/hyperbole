@@ -40,7 +40,8 @@ channel.on('peer', (peer) => {
 })
 
 channel.on('message', (peer, {message}) => {
-  log(peer.connection.channelName, '<', message)
+  let msg = JSON.stringify(message)
+  log(peer.connection.channelName, '<', msg)
 })
 
 inputform.addEventListener('submit', (e) => {
