@@ -11,6 +11,13 @@ if(!channelName) {
   window.location.href = url.href
 }
 
+let userName = localStorage.getItem('userName')
+
+if(!userName){
+  userName = prompt('Enter your user name')
+  localStorage.setItem('userName', userName)
+}
+
 const channel = chat.channel(channelName)
 
 const output = $('#output')
