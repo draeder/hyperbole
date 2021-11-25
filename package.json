@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-browser": "browserify ./browser.js > bundle.js"
+    "build-browser": "browserify ./browser.js > bundle.js",
+    "start": "server.js"
   },
   "repository": {
     "type": "git",
@@ -27,10 +28,12 @@
   },
   "homepage": "https://github.com/RangerMauve/hyperswarm-universal-chat#readme",
   "dependencies": {
+    "express": "^4.17.1",
     "hyperswarm": "^2.4.0",
     "hyperswarm-web": "^1.0.0",
     "minimist": "^1.2.0",
     "ndjson": "^1.5.0",
+    "path": "^0.12.7",
     "sodium-universal": "^3.0.4"
   },
   "devDependencies": {
