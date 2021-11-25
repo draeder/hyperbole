@@ -28,6 +28,9 @@ channel.on('peer', (peer) => {
   peer.once('disconnected', () => {
     log('* disconnected peer',id)
   })
+
+  console.log('* Peer connected', peer.publicKey)
+
 })
 
 channel.on('message', (peer, {message}) => {
