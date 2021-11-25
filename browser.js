@@ -24,17 +24,15 @@ let peerCount = 0
 channel.on('peer', (peer) => {
   const id = peerCount++
   
-  log('* connected peer',id)
+  log('* connected peer', peer.publicKey)
   peer.once('disconnected', () => {
-    log('* disconnected peer',id)
+    log('* disconnected peer', peer.publicKey)
   })
-
-  console.log('* Peer connected', peer.publicKey)
 
 })
 
 channel.on('message', (peer, {message}) => {
-  log('<', peer.publicKey + ' ' + message)
+  log('<', message)
 })
 
 inputform.addEventListener('submit', (e) => {
