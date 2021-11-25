@@ -25,6 +25,7 @@ channel.on('peer', (peer) => {
   const id = peerCount++
   
   log('* connected peer', peer.publicKey)
+  console.log(peer)
   peer.once('disconnected', () => {
     log('* disconnected peer', peer.publicKey)
   })
