@@ -21,6 +21,7 @@ if(!userName){
 
 const channel = chat.channel(channelName)
 
+const count = $('#count')
 const output = $('#output')
 const input = $('#input')
 const inputform = $('#inputform')
@@ -30,12 +31,14 @@ console.log('* Connecting to channel', channelName)
 let peerCount = 0
 
 channel.on('peer', (peer) => {
-  const id = peerCount++
+  count.innerText = peerCount++
   
-  log('* connected peer', peer.connection.channelName, userName)
+  
+  //log('* connected peer', peer.connection.channelName, userName)
   console.log(peer)
   peer.once('disconnected', () => {
-    log('* disconnected peer', peer.connection.channelName, userName)
+    count.innerText = peerCount++
+    //log('* disconnected peer', peer.connection.channelName, userName)
   })
 
 })
