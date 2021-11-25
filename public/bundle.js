@@ -64,7 +64,7 @@ const ndjson = require('ndjson')
 const { crypto_generichash, crypto_generichash_BYTES } = sodium
 
 class HyperswarmUniversalChat extends EventEmitter {
-  constructor (opts = {bootstrap: ['wss://hyperebole-chat.herokuapp.com','wss://geut-webrtc-signal-v3.herokuapp.com', 'wss://signal.dat-web.eu', 'wss://geut-webrtc-signal-v3.glitch.me']}) {
+  constructor (opts = {bootstrap: ['wss://hyperebole-chat.herokuapp.com']}){//,'wss://geut-webrtc-signal-v3.herokuapp.com', 'wss://signal.dat-web.eu', 'wss://geut-webrtc-signal-v3.glitch.me']}) {
     super()
     this.swarm = opts.swarm || hyperswarm(opts)
     this.channels = new Set()
