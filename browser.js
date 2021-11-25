@@ -34,21 +34,19 @@ channel.on('peer', (peer) => {
   let msg = {state: 'connected', user: userName, peerId: peer.connection.channelName}
   channel.send(msg)
   
-  log('* connected peer', userName)
   peer.once('disconnected', () => {
     count.innerText = peerCount--
     let msg = {state: 'disconnected', user: userName, peerId: peer.connection.channelName}
     channel.send(msg)
-    log('* disconnected peer', userName)
   })
 
 })
 
 channel.on('message', (peer, {message}) => {
-  if(message.state == 'connected'){
+  if(message.state == 'connected' && message.user != userName){
     log('* ', message.user, 'connected')
   } else 
-  if(message.state == 'disconnected'){ 
+  if(message.state == 'disconnected' && message.user != userName){ 
     log('* ', message.user, 'disconnected')
   } else {
     let msg = JSON.stringify(message)
