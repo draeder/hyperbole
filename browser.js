@@ -34,13 +34,12 @@ channel.on('peer', (peer) => {
   let msg = {state: 'connected', user: userName, peerId: peer.connection.channelName}
   channel.send(msg)
   
-  //log('* connected peer', peer.connection.channelName, userName)
-  console.log(peer)
+  log('* connected peer', userName)
   peer.once('disconnected', () => {
     count.innerText = peerCount--
     let msg = {state: 'disconnected', user: userName, peerId: peer.connection.channelName}
     channel.send(msg)
-    //log('* disconnected peer', peer.connection.channelName, userName)
+    log('* disconnected peer', userName)
   })
 
 })
