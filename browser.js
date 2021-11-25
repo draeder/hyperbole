@@ -31,10 +31,10 @@ let peerCount = 0
 channel.on('peer', (peer) => {
   const id = peerCount++
   
-  log('* connected peer', peer.connection.channelName)
+  log('* connected peer', peer.connection.channelName, userName)
   console.log(peer)
   peer.once('disconnected', () => {
-    log('* disconnected peer', peer.connection.channelName)
+    log('* disconnected peer', peer.connection.channelName, userName)
   })
 
 })
@@ -47,7 +47,8 @@ inputform.addEventListener('submit', (e) => {
   e.preventDefault()
   const message = input.value
   input.value = ''
-  channel.send(message)
+  let msg = {user: userName, message: message}
+  channel.send(msg)
   log('>', message)
 })
 
