@@ -26,6 +26,7 @@ const input = $('#input')
 const inputform = $('#inputform')
 
 console.log('* Connecting to channel', channelName)
+console.log(channel)
 
 let peerCount = 0
 let peers = [{user: userName, id: ''}]
@@ -34,7 +35,7 @@ let peers = [{user: userName, id: ''}]
 channel.on('peer', (peer) => {
   count.innerText = peerCount++
   if(peer.channelName != peers[0].id){
-    log('Got a new peer - exchange usernames', peer.channelName)
+    log('Got a new peer - exchange usernames')
   }
   let msg = {state: 'connected', user: userName, peerId: peer.connection.channelName}
   channel.send(msg)
