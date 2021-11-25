@@ -26,7 +26,7 @@ const input = $('#input')
 const inputform = $('#inputform')
 
 console.log('* Connecting to channel', channelName)
-console.log(chat.channelName)
+console.log(channel)
 
 let peerCount = 0
 let peers = [{user: userName, id: ''}]
