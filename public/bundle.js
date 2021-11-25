@@ -46,10 +46,11 @@ channel.on('peer', (peer) => {
 channel.on('message', (peer, {message}) => {
   if(message.state == 'connected' && message.user != userName){
     log('* ', message.user, 'connected')
-  } else 
+  } 
   if(message.state == 'disconnected' && message.user != userName){ 
     log('* ', message.user, 'disconnected')
-  } else {
+  } 
+  if(message.state == '') {
     let msg = JSON.stringify(message)
     log(message.user, '<', msg)
   }
