@@ -24,6 +24,13 @@ let peerCount = 0
 
 channel.on('peer', (peer) => {
   const id = peerCount++
+
+  fetch('https://api.namefake.com')
+  .then(res => res.json())
+  .then(name => {
+    id = name.name
+  })
+
   log('* connected peer',id)
   peer.once('disconnected', () => {
     log('* disconnected peer',id)
