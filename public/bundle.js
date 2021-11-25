@@ -37,7 +37,7 @@ channel.on('peer', (peer) => {
   //log('* connected peer', peer.connection.channelName, userName)
   console.log(peer)
   peer.once('disconnected', () => {
-    count.innerText = peerCount++
+    count.innerText = peerCount--
     //log('* disconnected peer', peer.connection.channelName, userName)
   })
 
