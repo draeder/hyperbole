@@ -4,7 +4,7 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 8080;
 
-path.join(__dirname, 'public')
+path.join(__dirname, '/public')
 
 // sendFile will go here
 app.get('/', function(req, res) {
