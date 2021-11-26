@@ -33,11 +33,10 @@ let peers = [{user: userName, id: ''}]
 
 
 channel.on('peer', (peer) => {
+  console.log(peer)
   count.innerText = peerCount++
-  //if(peer.channelName != peers[0].id){
-    let msg = {state: 'connected', user: userName, peerId: peer.connection.channelName}
-    channel.send(msg)
-  //}
+  let msg = {state: 'connected', user: userName, peerId: peer.connection.channelName}
+  channel.send(msg)
   
   peer.once('disconnected', () => {
     count.innerText = peerCount--
