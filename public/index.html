@@ -5,24 +5,41 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://chr15m.github.io/bugout/bugout.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/fontawesome.css" integrity="sha384-eHoocPgXsiuZh+Yy6+7DsKAerLXyJmu2Hadh4QYyt+8v86geixVYwFqUvMU8X90l" crossorigin="anonymous"/>
 </head>
 <style>
     pre {
-    height: 80vh;
-    max-height: 80vh;
-    overflow: auto;
-    background-color: #eeeeee;
-    word-break: normal !important;
-    word-wrap: normal !important;
-    white-space: pre !important;
-}
+        height: 100vh;
+        max-height: 100vh;
+        overflow: auto;
+        background-color: #eeeeee;
+        word-break: normal !important;
+        word-wrap: normal !important;
+        white-space: pre !important;
+    }
 </style>
 <body>
-    <progress id="file" value="32" max="100"> 32% </progress>
-    <pre id="log"></pre>
-    <input id="message" type="text"/>
+    <div class=''>
+        <p id='connections'>Peers connected: 0</p>
+        <progress id="connection" value="0" max="100"></progress>
+        <pre id="log"></pre>
+        <nav class="navbar is-fixed-bottom">
+            <div class="navbar-item">Hyperbole</div>
+            <div class="navbar-item">
+                <input class="input" id="message" type="text">
+                    <span class="icon is-right">
+                        <i class="fas fa-arrow-circle-right"></i>
+                    </span>
+                </input>
+            </div>
+            <div class="navbar-item">➡️</div>
+        </nav>
+    </div>
 </body>
 <script>
+    let connections = document.getElementById('connections')
+    let connection = document.getElementById('connection')
     let log = document.getElementById('log')
     let input = document.getElementById('message')
 
@@ -57,10 +74,16 @@
     }
     
     b.on("announce", console.log.bind(console, "Announced:"));
-    b.on("connections", console.log.bind(console, "Connections:"));
+    b.on("connections", count => {
+        console.log.bind(console, "Connections:")
+        connections.textContent = 'Users: ' + count
+    });
+
     b.on("seen", (address) => {
         console.log("seen", address)
-    });
+        connection.value = 100
+    })
+
     b.on("rpc", console.log.bind(console, "RPC:"));
     b.on("message", (address, message) => {
         console.log(message)
