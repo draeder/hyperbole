@@ -6,12 +6,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://chr15m.github.io/bugout/bugout.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/fontawesome.css" integrity="sha384-eHoocPgXsiuZh+Yy6+7DsKAerLXyJmu2Hadh4QYyt+8v86geixVYwFqUvMU8X90l" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <style>
     pre {
         height: 100vh;
-        max-height: 100vh;
+        max-height: 85vh;
         overflow: auto;
         background-color: #eeeeee;
         word-break: normal !important;
@@ -25,15 +25,23 @@
         <progress id="connection" value="0" max="100"></progress>
         <pre id="log"></pre>
         <nav class="navbar is-fixed-bottom">
-            <div class="navbar-item">Hyperbole</div>
-            <div class="navbar-item">
-                <input class="input" id="message" type="text">
-                    <span class="icon is-right">
-                        <i class="fas fa-arrow-circle-right"></i>
-                    </span>
-                </input>
+
+
+            <div class="field has-addons">
+                <div class="control has-icons-left">
+                  <input id="message" type="text" class="input is-info is-large">
+                  <span class="icon is-medium is-left">
+                    <i class="far fa-comment"></i>
+                  </span>
+                </div>
+                <div class="control">
+                    <a class="button is-info is-large">
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
             </div>
-            <div class="navbar-item">➡️</div>
+
+
         </nav>
     </div>
 </body>
