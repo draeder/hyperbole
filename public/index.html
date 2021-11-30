@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://chr15m.github.io/bugout/bugout.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-    <!--link rel="stylesheet" href="https://cdn.rawgit.com/Chalarangelo/mini.css/v3.0.1/dist/mini-default.min.css"-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <style>
@@ -54,15 +53,13 @@
 <body>
 
     <header id="header" class="navbar">
-        <div class="navbar-start">
-            <div class="navbar-item is-size-2">Hyperbole</div>
-        </div>
-        <p class="navbar-item is-size-5" id="roomname" contentEditable=true spellcheck="false">
-        <div class="navbar-end">
-            <b class="navbar-item navbar-end" id='connections'>Participants: 0</b>
-        </div>
+        <div class="navbar-item navbar-start is-size-5">Hyperbole</div>
+        <div class="navbar-item is-size-2" id="roomname" contentEditable=true spellcheck="false"></div>
+        <div class="navbar-item navbar-end is-size-5" id='connections'>Friends 0</div>
     </header> 
+
     <div id="content"></div>
+    
     <footer id="footer" class="navbar">
         <input id="message" type="text" class="input is-info navbar-start" />
         <div class="navbar-end">
@@ -102,9 +99,6 @@
     }
 
     window.onresize = scroll()
-
-
-
 
     let connections = document.getElementById('connections')
     let connection = document.getElementById('connection')
@@ -186,8 +180,7 @@
 
     b.on("connections", count => {
         console.log.bind(console, "Connections:")
-        count = count+1
-        connections.textContent = 'Participants: ' + count
+        connections.textContent = 'Friends ' + count
     });
 
     b.on("seen", (address) => {
