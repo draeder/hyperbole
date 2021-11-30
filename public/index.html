@@ -84,11 +84,8 @@
         if(ev.keyCode === 13){
             ev.preventDefault()
             if(roomname.innerText != room){
-                console.log(`roomname changed! >> from ${room} to ${roomname.innerText}`)
                 ev = null
-
                 location.replace(`${url.origin}/?room=${roomname.innerText}`)
-
             }
         }
     })
@@ -178,7 +175,6 @@
     })
 
     b.on("connections", count => {
-        console.log.bind(console, "Connections:")
         connections.textContent = 'Friends ' + count
     });
 
@@ -187,7 +183,6 @@
     })
 
     b.on("message", (address, message) => {
-        console.log(message)
         logger(address, message)
     })
 
