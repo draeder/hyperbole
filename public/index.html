@@ -23,6 +23,9 @@
         top: 0;
         width: 100%;
         border-bottom: 5px solid red;
+
+        background: rgb(73,106,167);
+        background: linear-gradient(90deg, rgba(73,106,167,1) 0%, rgba(255,182,83,1) 50%, rgba(255,83,83,1) 100%);
     }
 
     #footer {
@@ -51,10 +54,10 @@
 </style>
 <body>
 
-    <header id="header" class="navbar">
-        <div class="navbar-item navbar-start is-size-5">Hyperbole</div>
-        <div class="navbar-item is-size-2" id="roomname" contentEditable=true spellcheck="false"></div>
-        <div class="navbar-item navbar-end is-size-5" id='connections'>Friends 0</div>
+    <header id="header" class="navbar has-background-grey-lighter has-text-white">
+        <div class="navbar-item navbar-start is-size-5 has-text-white">Hyperbole</div>
+        <div class="navbar-item is-size-2 has-text-white" id="roomname" contentEditable=true spellcheck="false"></div>
+        <div class="navbar-item navbar-end is-size-5 has-text-white" id='connections'>Friends 0</div>
     </header> 
 
     <div id="content"></div>
@@ -76,130 +79,177 @@
     let room = params.get('room')
 
     let roomname = document.getElementById('roomname')
-    roomname.innerText = room
 
-    let msgInput = document.getElementById('message')
-
-    roomname.addEventListener('keypress', ev => {
-        if(ev.keyCode === 13){
-            ev.preventDefault()
-            if(roomname.innerText != room){
-                ev = null
-                location.replace(`${url.origin}/?room=${roomname.innerText}`)
+    if(!room){
+        fetch('https://random-word-api.herokuapp.com/word?number=2')
+        .then(res => res.json())
+        .then(json => {
+            console.log(json)
+            for(word in json){
+                room += json[word].capitalize()
             }
-        }
+        })
+        .then(() => {
+            //location.replace(`${url.origin}/?room=${roomname.innerText}`)
+
+            if(room)
+            roomname.innerText = room
+            main(room)
+        })
+    } else {
+        roomname.innerText = room
+        main(room)
+    }
+
+    Object.defineProperty(String.prototype, 'capitalize', {
+        value: function() {
+            return this.charAt(0).toUpperCase() + this.slice(1)
+        },
+        enumerable: false
     })
 
-    function scroll(){
-        window.scrollTo(0, document.body.scrollHeight)
-    }
+    function main(room){
+        console.log('got a room', room)
 
-    window.onresize = scroll()
+        let msgInput = document.getElementById('message')
 
-    let connections = document.getElementById('connections')
-    let connection = document.getElementById('connection')
-    let log = document.getElementById('log')
-    let input = document.getElementById('message')
+        roomname.addEventListener('mouseover', () => {
+            roomname.focus()
+            document.execCommand('selectAll',false,null)
+        })
 
-    let username = localStorage.getItem('useername')
-    if(!username){
-        username = prompt("Enter your username")
-        localStorage.setItem('useername', username)
-    }
-    
-    var b = new Bugout(room, {announce: ['wss://p2p-tracker1.herokuapp.com']})
+        roomname.addEventListener('mouseout', () => {
+            roomname.blur()
+            msgInput.focus()
+            //document.execCommand('selectAll',false,null)
+        })
 
-    let lastUser
-    let display
+        roomname.addEventListener('click', () => {
+            document.execCommand('selectAll',false,null)
+        })
 
-    function logger(address, message){
-        let peerName
-        let peerId
-        let msg
-        let type = ''
-
-        if(typeof message === 'object') {
-
-            if(message.id == b.address()) {
-                peerName = `${message.user} (you)`
-                type = 'has-background-grey-lighter has-text-grey'
+        roomname.addEventListener('keypress', ev => {
+            if(ev.keyCode === 13){
+                ev.preventDefault()
+                if(roomname.innerText != room){
+                    ev = null
+                    location.replace(`${url.origin}/?room=${roomname.innerText}`)
+                }
             }
-            else {
-                peerName = `${message.user}`
-                type = 'is-dark'
-            }
+        })
 
-            if(peerName === lastUser){
-                display = 'none;'
-                setTimeout(()=>{
-                    lastUser = ''
-                    display = 'block;'
-                }, 60000)
-            } 
-            else {
-                display = 'block;'
-            }
-
-            peerId = message.id
-            msg = message.message
-
-            lastUser = peerName
+        function scroll(){
+            window.scrollTo(0, document.body.scrollHeight)
         }
 
-        var content = document.getElementById("content")
-        var textnode = document.createElement("div")
+        window.onresize = scroll()
 
-        const date = new Date()
+        let connections = document.getElementById('connections')
+        let connection = document.getElementById('connection')
+        let log = document.getElementById('log')
+        let input = document.getElementById('message')
 
-        textnode.innerHTML = `
-        <article class="message ${type} is-small">
-            <div class="message-header ${type}" style="display:${display}">
-                <p class="is-size-6">${peerName}</p>
-                <p class="is-size=7">${date.toLocaleTimeString()}</p>
-            </div>
-            <div class="has-background-white is-size-6 msg">
-                ${msg}
-            </div>
-        </article>
-        `
+        let username = localStorage.getItem('useername')
+        if(!username){
+            username = prompt("Enter your username")
+            localStorage.setItem('useername', username)
+        }
         
-        content.appendChild(textnode)
+        var b = new Bugout(room, {announce: ['wss://p2p-tracker1.herokuapp.com']})
 
-        scroll()
+        let lastUser
+        let display
 
-    }
-    
-    b.on("announce", address => {
-        roomname.innerText = address
-        window.history.pushState('data', 'hyperbole chat room', `${url.origin}/?room=${address}`);
-    })
+        function logger(address, message){
+            let peerName
+            let peerId
+            let msg
+            let type = ''
 
-    b.on("connections", count => {
-        connections.textContent = 'Friends ' + count
-    });
+            if(typeof message === 'object') {
 
-    b.on("seen", (address) => {
-        console.log("seen", address)
-    })
+                if(message.id == b.address()) {
+                    peerName = `${message.user} (you)`
+                    type = 'has-background-grey-lighter has-text-grey'
+                }
+                else {
+                    peerName = `${message.user}`
+                    type = 'is-dark'
+                }
 
-    b.on("message", (address, message) => {
-        logger(address, message)
-    })
+                if(peerName === lastUser){
+                    display = 'none;'
+                    setTimeout(()=>{
+                        lastUser = ''
+                        display = 'block;'
+                    }, 60000)
+                } 
+                else {
+                    display = 'block;'
+                }
 
-    let sendBtn = document.getElementById('sendBtn')
-    sendBtn.addEventListener('click', ev => {
-        let message = {id: b.address(), user: username, message: input.value}
-        b.send(message)
-        input.value = ''
-    })
+                peerId = message.id
+                msg = message.message
 
-    input.addEventListener('keyup', (ev)=>{
-        if(ev.keyCode === 13){
+                lastUser = peerName
+            }
+
+            var content = document.getElementById("content")
+            var textnode = document.createElement("div")
+
+            const date = new Date()
+
+            textnode.innerHTML = `
+            <article class="message ${type} is-small">
+                <div class="message-header ${type}" style="display:${display}">
+                    <p class="is-size-6">${peerName}</p>
+                    <p class="is-size=7">${date.toLocaleTimeString()}</p>
+                </div>
+                <div class="has-background-white is-size-6 msg">
+                    ${msg}
+                </div>
+            </article>
+            `
+            
+            content.appendChild(textnode)
+
+            scroll()
+
+        }
+        
+        b.on("announce", address => {
+            console.log("announced", address)
+            //roomname.innerText = address
+            window.history.pushState('data', 'hyperbole chat room', `${url.origin}/?room=${address}`);
+        })
+
+        b.on("connections", count => {
+            connections.textContent = 'Friends ' + count
+        });
+
+        b.on("seen", (address) => {
+            console.log("seen", address)
+        })
+
+        b.on("message", (address, message) => {
+            logger(address, message)
+        })
+
+        let sendBtn = document.getElementById('sendBtn')
+        sendBtn.addEventListener('click', ev => {
             let message = {id: b.address(), user: username, message: input.value}
             b.send(message)
             input.value = ''
-        }
-    })
+        })
+
+        input.addEventListener('keyup', (ev)=>{
+            if(ev.keyCode === 13){
+                let message = {id: b.address(), user: username, message: input.value}
+                b.send(message)
+                input.value = ''
+            }
+        })
+    }
 
 </script>
 <html>
