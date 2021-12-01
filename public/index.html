@@ -87,6 +87,7 @@
 
 </body>
 <script>
+    
     // for safari navigation cache retardedness
     window.addEventListener('popstate', () => {
         location.reload();
@@ -135,6 +136,8 @@
         })
 
         function main(room){
+
+            //window.history.pushState('data', `Hyperbole: ${room}`, `${url.origin}/?room=${room}`)
 
             if(b) b.destroy()
 
