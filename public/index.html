@@ -194,29 +194,29 @@
                 localStorage.setItem('useername', username)
             }
             
-            b = new Bugout(room, {announce: ['wss://p2p-tracker1.herokuapp.com']})
+            b = new Bugout(room, {announce: ['wss://tracker.peer.ooo']})
 
             let lastUser
             let display
 
             function logger(address, message){
                 let peerName
-                let peerId
+                let peerId = message.id
                 let msg
                 let type = ''
 
                 if(typeof message === 'object') {
 
                     if(message.id == b.address()) {
-                        peerName = `${message.user} (you)`
+                        peerName = `${message.username} (you)`
                         type = 'has-background-grey-lighter has-text-grey'
                     }
                     else {
-                        peerName = `${message.user}`
+                        peerName = `${message.username}`
                         type = 'is-dark'
                     }
 
-                    if(peerName === lastUser){
+                    if(peerId === lastUser){
                         display = 'none;'
                         setTimeout(()=>{
                             lastUser = ''
@@ -230,7 +230,7 @@
                     peerId = message.id
                     msg = message.message
 
-                    lastUser = peerName
+                    lastUser = peerId
                 }
 
                 let content = document.getElementById("content")
@@ -274,14 +274,14 @@
 
             let sendBtn = document.getElementById('sendBtn')
             sendBtn.addEventListener('click', ev => {
-                let message = {id: b.address(), user: username, message: input.value}
+                let message = {type: 'public', id: b.address(), username: username, message: input.value}
                 b.send(message)
                 input.value = ''
             })
 
             input.addEventListener('keyup', (ev)=>{
                 if(ev.keyCode === 13){
-                    let message = {id: b.address(), user: username, message: input.value}
+                    let message = {type: 'public', id: b.address(), username: username, message: input.value}
                     b.send(message)
                     input.value = ''
                 }
